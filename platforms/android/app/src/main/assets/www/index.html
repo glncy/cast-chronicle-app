@@ -5,13 +5,30 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <link href="css/quill.snow.css" rel="stylesheet">
+        <link rel="stylesheet" href="onsenui/css/onsenui.css">
+        <link rel="stylesheet" href="onsenui/css/onsen-css-components.min.css">
+        <script src="onsenui/js/onsenui.min.js"></script>
         <title>Hello World</title>
     </head>
     <body>
-        <div id="editor-container">
-        </div>
-        <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+            <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
+
+            <template id="page1.html">
+              <ons-page id="page1">
+                <ons-toolbar>
+                  <div class="center">Page 1</div>
+                </ons-toolbar>
+            
+                <p>This is the first page.</p>
+            
+                <ons-button id="push-button">Push page</ons-button>
+              </ons-page>
+            </template>
+            
+        <!--<div id="editor-container">
+        </div>-->
+        <script src="js/quill.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
@@ -27,5 +44,18 @@
                     theme: 'snow'  // or 'bubble'
                 });
         </script>
+        <script type="text/javascript">
+        document.addEventListener('init', function(event) {
+  var page = event.target;
+
+  if (page.id === 'page1') {
+    page.querySelector('#push-button').onclick = function() {
+      document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Page 2'}});
+    };
+  } else if (page.id === 'page2') {
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+  }
+});
+</script>
     </body>
 </html>
