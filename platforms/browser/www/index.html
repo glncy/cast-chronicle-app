@@ -15,9 +15,17 @@
         <ons-splitter>
           <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
             <ons-page>
+              <center>
+                <img src="https://is3-ssl.mzstatic.com/image/thumb/Purple128/v4/22/20/a6/2220a600-9c38-66d7-d3f8-c6e1c6da8728/AppIcon2-0-1x_U007emarketing-0-85-220-7.png/246x0w.jpg" style="width: 80px; border-radius: 100%; margin-top: 20px; margin-bottom: 20px;">
+                <br/>
+              </center>
+              
               <ons-list>
                 <ons-list-item onclick="fn.load('home.html')" tappable>
                   Home
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('home.html')" tappable>
+                  About
                 </ons-list-item>
               </ons-list>
             </ons-page>
@@ -28,6 +36,8 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
+
+        // Side Nav
         window.fn = {};
 
         window.fn.open = function() {
@@ -41,10 +51,27 @@
           content.load(page)
             .then(menu.close.bind(menu));
         };
-
+        
+        // Switching Home Tab
         document.addEventListener('prechange', function(event) {
           document.querySelector('ons-toolbar .center')
             .innerHTML = event.tabItem.getAttribute('label');
+        });
+
+        // Lazy Repeat
+        ons.ready(function(){
+          var infiniteList = document.getElementById('infinite-list');
+          
+          infiniteList.delegate = {
+            createItemContent: function (i) {
+              return ons.createElement('<ons-card><img src="https://monaca.io/img/logos/download_image_onsenui_01.png" alt="Onsen UI" style="width: 100%"> <div class="title">Tab 1 '+ i +'</div><div class="content"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi sed dignissimos modi quia tempora, minus aliquid autem repellendus esse dolorum quis fugiat at commodi possimus aut! Laudantium nemo ad et.</p></div></ons-card>')
+            },
+            countItems: function () {
+              return 10000;
+            }
+          };
+
+          infiniteList.refresh();
         });
 </script>
     </body>
