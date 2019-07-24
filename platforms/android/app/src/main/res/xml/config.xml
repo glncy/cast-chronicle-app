@@ -7,6 +7,9 @@
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
     <name>HelloCordova</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -23,5 +26,17 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
+    <splash density="land-hdpi" src="res/screen/android/splash-land.png" />
+    <splash density="land-ldpi" src="res/screen/android/splash-land.png" />
+    <splash density="land-mdpi" src="res/screen/android/splash-land.png" />
+    <splash density="land-xhdpi" src="res/screen/android/splash-land.png" />
+    <splash density="port-hdpi" src="res/screen/android/splash-port.png" />
+    <splash density="port-ldpi" src="res/screen/android/splash-port.png" />
+    <splash density="port-mdpi" src="res/screen/android/splash-port.png" />
+    <splash density="port-xhdpi" src="res/screen/android/splash-port.png" />
     <preference name="loglevel" value="DEBUG" />
+    <preference name="SplashScreen" value="foo" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashMaintainAspectRatio" value="true|false" />
+    <preference name="SplashShowOnlyFirstTime" value="true|false" />
 </widget>
