@@ -12,8 +12,40 @@
         <title>Hello World</title>
     </head>
     <body>
+        <ons-splitter>
+          <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+            <ons-page>
+              <ons-list>
+                <ons-list-item onclick="fn.load('home.html')" tappable>
+                  Home
+                </ons-list-item>
+              </ons-list>
+            </ons-page>
+          </ons-splitter-side>
+          <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+        </ons-splitter>
         <script src="js/quill.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+        window.fn = {};
+
+        window.fn.open = function() {
+          var menu = document.getElementById('menu');
+          menu.open();
+        };
+
+        window.fn.load = function(page) {
+          var content = document.getElementById('content');
+          var menu = document.getElementById('menu');
+          content.load(page)
+            .then(menu.close.bind(menu));
+        };
+
+        document.addEventListener('prechange', function(event) {
+          document.querySelector('ons-toolbar .center')
+            .innerHTML = event.tabItem.getAttribute('label');
+        });
+</script>
     </body>
 </html>

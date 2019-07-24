@@ -12,50 +12,40 @@
         <title>Hello World</title>
     </head>
     <body>
-            <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
-
-            <template id="page1.html">
-              <ons-page id="page1">
-                <ons-toolbar>
-                  <div class="center">Page 1</div>
-                </ons-toolbar>
-            
-                <p>This is the first page.</p>
-            
-                <ons-button id="push-button">Push page</ons-button>
-              </ons-page>
-            </template>
-            
-        <!--<div id="editor-container">
-        </div>-->
+        <ons-splitter>
+          <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+            <ons-page>
+              <ons-list>
+                <ons-list-item onclick="fn.load('home.html')" tappable>
+                  Home
+                </ons-list-item>
+              </ons-list>
+            </ons-page>
+          </ons-splitter-side>
+          <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+        </ons-splitter>
         <script src="js/quill.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-            var quill = new Quill('#editor-container', {
-                    modules: {
-                        toolbar: [
-                        [{ header: [1, 2, false] }],
-                        ['bold', 'italic', 'underline'],
-                        ['image', 'video', 'code-block']
-                        ]
-                    },
-                    placeholder: 'Compose an epic...',
-                    theme: 'snow'  // or 'bubble'
-                });
-        </script>
-        <script type="text/javascript">
-        document.addEventListener('init', function(event) {
-  var page = event.target;
+        window.fn = {};
 
-  if (page.id === 'page1') {
-    page.querySelector('#push-button').onclick = function() {
-      document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Page 2'}});
-    };
-  } else if (page.id === 'page2') {
-    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
-  }
-});
+        window.fn.open = function() {
+          var menu = document.getElementById('menu');
+          menu.open();
+        };
+
+        window.fn.load = function(page) {
+          var content = document.getElementById('content');
+          var menu = document.getElementById('menu');
+          content.load(page)
+            .then(menu.close.bind(menu));
+        };
+
+        document.addEventListener('prechange', function(event) {
+          document.querySelector('ons-toolbar .center')
+            .innerHTML = event.tabItem.getAttribute('label');
+        });
 </script>
     </body>
 </html>
