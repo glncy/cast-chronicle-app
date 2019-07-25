@@ -58,21 +58,11 @@
             .innerHTML = event.tabItem.getAttribute('label');
         });
 
-        // Lazy Repeat
-        ons.ready(function(){
-          var infiniteList = document.getElementById('infinite-list');
-          
-          infiniteList.delegate = {
-            createItemContent: function (i) {
-              return ons.createElement('<ons-card><img src="https://monaca.io/img/logos/download_image_onsenui_01.png" alt="Onsen UI" style="width: 100%"> <div class="title">Tab 1 '+ i +'</div><div class="content"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi sed dignissimos modi quia tempora, minus aliquid autem repellendus esse dolorum quis fugiat at commodi possimus aut! Laudantium nemo ad et.</p></div></ons-card>')
-            },
-            countItems: function () {
-              return 10000;
-            }
-          };
-
-          infiniteList.refresh();
-        });
+        // Loading Another News
+        function load_more(){
+          var target = document.getElementById('load_more');
+          target.innerHTML = '<ons-progress-circular indeterminate></ons-progress-circular>';
+        }
 </script>
     </body>
 </html>
