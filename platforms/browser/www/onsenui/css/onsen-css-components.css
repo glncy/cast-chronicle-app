@@ -1,3 +1,5 @@
+/* Custom Theme for Onsen UI 2.10.8 */
+
 /*!
  * Copyright 2013-2017 ASIAL CORPORATION
  *
@@ -30,6 +32,7 @@
  * limitations under the License.
  *
  */
+
 :root {
   /* variables for iOS components */
 
@@ -381,6 +384,7 @@ h4, h5, h6 {
       0 2px 4px -1px rgba(0, 0, 0, .4);
 }
 :checked + .switch--material__toggle {
+  background-color: #37474f;
   background-color: rgba(55, 71, 79, 0.5);
   box-shadow: none;
 }
@@ -803,6 +807,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .toolbar {
     background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
   }
@@ -980,6 +985,7 @@ h4, h5, h6 {
   background-image: linear-gradient(180deg, #b2b2b2, #b2b2b2 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .bottom-bar {
     background-image: linear-gradient(180deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
   }
@@ -1261,12 +1267,17 @@ h4, h5, h6 {
 */
 .button--light {
   background-color: transparent;
+  color: #000000;
   color: rgba(0, 0, 0, 0.4);
+  border: 1px solid #000000;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 .button--light:active {
+  background-color: #000000;
   background-color: rgba(0, 0, 0, 0.05);
+  color: #000000;
   color: rgba(0, 0, 0, 0.4);
+  border: 1px solid #000000;
   border: 1px solid rgba(0, 0, 0, 0.2);
   opacity: 1;
 }
@@ -1671,7 +1682,9 @@ h4, h5, h6 {
 .button--material[disabled] {
   transition: none;
   box-shadow: none;
+  background-color: #4f4f4f;
   background-color: rgba(79, 79, 79, 0.26);
+  color: #000000;
   color: rgba(0, 0, 0, 0.26);
   opacity: 1;
 }
@@ -1759,6 +1772,7 @@ h4, h5, h6 {
   outline: 0;
   opacity: 1;
   border: none;
+  background-color: #999999;
   background-color: rgba(153, 153, 153, 0.2);
   color: #2979ff;
   transition: all 0.25s linear;
@@ -1768,6 +1782,7 @@ h4, h5, h6 {
   opacity: 1;
   box-shadow: none;
   background-color: transparent;
+  color: #000000;
   color: rgba(0, 0, 0, 0.26);
 }
 /*~
@@ -2037,6 +2052,7 @@ h4, h5, h6 {
   height: 32px;
   line-height: 32px;
   border-width: 0;
+  color: #000000;
   color: rgba(0, 0, 0, 0.38);
   border-radius: 0;
   background-color: #fafafa;
@@ -2047,6 +2063,7 @@ h4, h5, h6 {
   border-width: 0;
   font-size: 14px;
   transition: none;
+  color: #000000;
   color: rgba(0, 0, 0, 0.38);
 }
 :checked + .segment--material__button {
@@ -2143,6 +2160,7 @@ h4, h5, h6 {
   width: 100%;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .tabbar {
     border-top: none;
     background-size: 100% 1px;
@@ -2221,6 +2239,7 @@ h4, h5, h6 {
   line-height: 49px;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .tabbar__button {
     border-top: none;
   }
@@ -2366,6 +2385,7 @@ h4, h5, h6 {
   border-bottom: 1px solid #ccc;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .tabbar--top {
     border-bottom: none;
     background-size: 100% 1px;
@@ -2499,6 +2519,7 @@ h4, h5, h6 {
   color: #31313a;
 }
 .tabbar--material__item:not([ripple]):active {
+  background-color: #31313a;
   background-color: rgba(49, 49, 58, .1);
 }
 .tabbar--material__border {
@@ -2610,6 +2631,7 @@ h4, h5, h6 {
   padding: 4px 10px;
   letter-spacing: 0;
   color: #0076ff;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, 0);
   border-radius: 2px;
   border: 1px solid transparent;
@@ -2618,6 +2640,7 @@ h4, h5, h6 {
   transition: none;
 }
 .toolbar-button:active {
+  background-color: #000000;
   background-color: rgba(0, 0, 0, 0);
   transition: none;
   opacity: 0.2;
@@ -2685,6 +2708,7 @@ h4, h5, h6 {
   line-height: 44px;
   padding-left: 8px;
   color: #0076ff;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, 0);
   display: inline-block;
 }
@@ -3214,6 +3238,7 @@ h4, h5, h6 {
           transform: rotate(-45deg);
 }
 :checked + .radio-button__checkmark {
+  background: #000000;
   background: rgba(0, 0, 0, 0);
 }
 :checked + .radio-button__checkmark:after {
@@ -3392,6 +3417,7 @@ h4, h5, h6 {
   background-color: #fff;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list {
     background-image:
       linear-gradient(0deg, #ccc, #ccc 50%, transparent 50%),
@@ -3472,6 +3498,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #ccc, #ccc 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-item--expandable {
     background-image: linear-gradient(0deg, #ccc, #ccc 50%, transparent 50%);
   }
@@ -3547,6 +3574,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #ccc, #ccc 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-item__center {
     background-image: linear-gradient(0deg, #ccc, #ccc 50%, transparent 50%);
   }
@@ -3578,6 +3606,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #ccc, #ccc 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-item__right {
     background-image: linear-gradient(0deg, #ccc, #ccc 50%, transparent 50%);
   }
@@ -3607,6 +3636,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #ccc, #ccc 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-header {
     background-image: linear-gradient(180deg, #ccc, #ccc 50%, transparent 50%);
   }
@@ -4037,6 +4067,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #eee, #eee 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-item--material__left:empty,
 .list-item--material__center {
     background-image: linear-gradient(0deg, #eee, #eee 50%, transparent 50%);
@@ -4057,6 +4088,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #eee, #eee 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-item--material__right {
     background-image: linear-gradient(0deg, #eee, #eee 50%, transparent 50%);
   }
@@ -4073,6 +4105,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #eee, #eee 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-item--material.list-item--expandable {
     background-image: linear-gradient(0deg, #eee, #eee 50%, transparent 50%);
   }
@@ -4091,6 +4124,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #eee, #eee 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-item--material.list-item--longdivider,
 .list-item--material.list-item--expandable.list-item--longdivider
  {
@@ -4132,6 +4166,7 @@ h4, h5, h6 {
   background-image: linear-gradient(180deg, #eee, #eee 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-header--material:not(:first-of-type) {
     background-image: linear-gradient(180deg, #eee, #eee 50%, transparent 50%);
   }
@@ -4355,6 +4390,7 @@ h4, h5, h6 {
   background-image: linear-gradient(0deg, #ccc, #ccc 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .list-item--longdivider {
     background-image: linear-gradient(0deg, #ccc, #ccc 50%, transparent 50%);
   }
@@ -4467,6 +4503,7 @@ h4, h5, h6 {
   box-sizing: border-box;
   height: 28px;
   font-size: 14px;
+  background-color: #030303;
   background-color: rgba(3, 3, 3, .09);
   box-shadow: none;
   color: #1f1f21;
@@ -4994,6 +5031,7 @@ h4, h5, h6 {
   right: 0;
   left: 0;
   bottom: 0;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .2);
 }
 /*~
@@ -5024,6 +5062,7 @@ h4, h5, h6 {
   color: #1f1f21;
 }
 .dialog-mask--material {
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .3);
 }
 /*~
@@ -5146,6 +5185,7 @@ h4, h5, h6 {
   color: #0076ff;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .alert-dialog-button {
     border-top: none;
     background-size: 100% 1px;
@@ -5155,6 +5195,7 @@ h4, h5, h6 {
   }
 }
 .alert-dialog-button:active {
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .05);
 }
 .alert-dialog-button--primal {
@@ -5177,6 +5218,7 @@ h4, h5, h6 {
   border-left: 1px solid #ddd;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .alert-dialog-button--rowfooter {
     border-top: none;
     border-left: none;
@@ -5192,6 +5234,7 @@ h4, h5, h6 {
   border-left: none;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .alert-dialog-button--rowfooter:first-child {
     border-top: none;
     background-size: 100% 1px;
@@ -5218,6 +5261,7 @@ h4, h5, h6 {
   right: 0;
   left: 0;
   bottom: 0;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .2);
 }
 /*~
@@ -5332,6 +5376,7 @@ h4, h5, h6 {
   padding: 0 24px;
   margin: 24px 0 10px 0;
   min-height: 0;
+  color: #31313a;
   color: rgba(49, 49, 58, .85);
 }
 .alert-dialog-footer--material {
@@ -5365,6 +5410,7 @@ h4, h5, h6 {
   color: #37474f;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .alert-dialog-button--material {
     background: none;
   }
@@ -5379,6 +5425,7 @@ h4, h5, h6 {
   border: 0;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .alert-dialog-button--rowfooter--material,
 .alert-dialog-button--rowfooter--material:first-child {
     background: none;
@@ -5389,11 +5436,13 @@ h4, h5, h6 {
   font-weight: 500;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .alert-dialog-button--primal--material {
     background: none;
   }
 }
 .alert-dialog-mask--material {
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .3);
 }
 /*~
@@ -5469,6 +5518,7 @@ h4, h5, h6 {
   right: 0;
   top: 0;
   bottom: 0;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .2);
   position: absolute;
   z-index: 19999;
@@ -5948,6 +5998,7 @@ ons-fab.fab, ons-speed-dial-item.fab, button.fab {
 }
 ons-fab.fab:active, ons-speed-dial-item.fab:active, button.fab:active {
   box-shadow: 0 3px 6 rgba(0, 0, 0, .12);
+  background-color: #0076ff;
   background-color: rgba(0, 118, 255, 0.7);
   transition: all 0.2s ease;
   box-shadow: 0 0 6 rgba(0, 0, 0, .12);
@@ -5961,6 +6012,7 @@ ons-fab.fab:disabled,
     ons-speed-dial-item.fab[disabled],
     button.fab:disabled,
     button.fab[disabled] {
+  background-color: #000000;
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: none;
   opacity: 0.3;
@@ -6045,6 +6097,7 @@ ons-fab.fab--material:active, ons-speed-dial-item.fab--material:active, button.f
       0 8px 10px 1px rgba(0, 0, 0, .14),
       0 3px 14px 2px rgba(0, 0, 0, .12),
       0 5px 5px -3px rgba(0, 0, 0, .4);
+  background-color: #ffffff;
   background-color: rgba(255, 255, 255, .75);
   transition: all 0.2s ease;
 }
@@ -6068,6 +6121,7 @@ ons-fab.fab--material:disabled,
   ons-speed-dial-item.fab--material[disabled],
   button.fab--material:disabled,
   button.fab--material[disabled] {
+  background-color: #000000;
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: none;
   opacity: 0.3;
@@ -6183,6 +6237,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   overflow: hidden;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .7);
   position: absolute;
   left: 0;
@@ -6361,6 +6416,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   font-family: 'Roboto', 'Noto', sans-serif;
   -webkit-font-smoothing: antialiased;
   font-weight: 400;
+  color: #000000;
   color: rgba(0, 0, 0, .81);
   position: absolute;
   left: 0;
@@ -6369,6 +6425,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   pointer-events: none;
 }
 .select-input--material__label--active {
+  color: #000000;
   color: rgba(0, 0, 0, .15);
   -webkit-transform: translate(0, -75%) scale(0.75);
           transform: translate(0, -75%) scale(0.75);
@@ -6379,18 +6436,22 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   transition: transform 0.1s ease-in, color 0.1s ease-in, -webkit-transform 0.1s ease-in;
 }
 .select-input--material::-webkit-input-placeholder {
+  color: #000000;
   color: rgba(0, 0, 0, .81);
   line-height: 20px;
 }
 .select-input--material:-ms-input-placeholder {
+  color: #000000;
   color: rgba(0, 0, 0, .81);
   line-height: 20px;
 }
 .select-input--material::-ms-input-placeholder {
+  color: #000000;
   color: rgba(0, 0, 0, .81);
   line-height: 20px;
 }
 .select-input--material::placeholder {
+  color: #000000;
   color: rgba(0, 0, 0, .81);
   line-height: 20px;
 }
@@ -6520,6 +6581,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   font-size: 20px;
   text-align: center;
   color: #0076ff;
+  background-color: #ffffff;
   background-color: rgba(255, 255, 255, .9);
   border-radius: 0;
   line-height: 56px;
@@ -6538,6 +6600,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   background-image: linear-gradient(0deg, rgba(0, 0, 0, .1), rgba(0, 0, 0, .1) 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .action-sheet-button {
     background-image: linear-gradient(0deg, rgba(0, 0, 0, .1), rgba(0, 0, 0, .1) 50%, transparent 50%);
   }
@@ -6577,6 +6640,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   font-size: 13px;
   color: #8f8e94;
   text-align: center;
+  background-color: #ffffff;
   background-color: rgba(255, 255, 255, .9);
   line-height: 56px;
   text-overflow: ellipsis;
@@ -6588,6 +6652,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   background-image: linear-gradient(0deg, rgba(0, 0, 0, .1), rgba(0, 0, 0, .1) 100%);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+
   .action-sheet-title {
     background-image: linear-gradient(0deg, rgba(0, 0, 0, .1), rgba(0, 0, 0, .1) 50%, transparent 50%);
   }
@@ -6605,6 +6670,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   top: 0;
   right: 0;
   bottom: 0;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .1);
   z-index: 1;
 }
@@ -6695,6 +6761,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   text-align: center;
 }
 .action-sheet-mask--material {
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .2);
 }
 /*~
@@ -6775,6 +6842,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
 .card--material__content {
   font-size: 14px;
   line-height: 1.4;
+  color: #000000;
   color: rgba(0, 0, 0, .54);
 }
 /*~
@@ -6816,6 +6884,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   bottom: 0;
   margin: 8px 0;
   border-radius: 8px;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .8);
   display: -webkit-box;
   display: -webkit-flex;
@@ -6869,6 +6938,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
   right: 0;
   bottom: 0;
   margin: 0;
+  background-color: #000000;
   background-color: rgba(0, 0, 0, .8);
   border-radius: 0;
   padding: 16px 24px;
@@ -6960,8 +7030,7 @@ ons-fab.fab--bottom__center, button.fab--bottom__center, .speed-dial.fab--bottom
 /* All bottom tabbar */
 .tabbar:not(.tabbar--top) {
   padding-bottom: 0;
-}
-/* non BEM */
+} /* non BEM */
 /* @import './util.css'; */
 @media (orientation: landscape) {
   html[onsflag-iphonex-landscape] .page__content {

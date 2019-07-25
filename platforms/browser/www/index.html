@@ -6,8 +6,8 @@
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <link rel="stylesheet" type="text/css" href="css/index.css">
         <link href="css/quill.snow.css" rel="stylesheet">
-        <link rel="stylesheet" href="onsenui/css/onsenui.css">
-        <link rel="stylesheet" href="onsenui/css/onsen-css-components.min.css">
+        <link rel="stylesheet" href="onsenui/css/onsenui.min.css">
+        <link rel="stylesheet" href="onsenui/css/dark-onsen-css-components.min.css" id="css_style">
         <script src="onsenui/js/onsenui.min.js"></script>
         <title>Hello World</title>
     </head>
@@ -16,8 +16,7 @@
           <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
             <ons-page>
               <center>
-                <img src="https://is3-ssl.mzstatic.com/image/thumb/Purple128/v4/22/20/a6/2220a600-9c38-66d7-d3f8-c6e1c6da8728/AppIcon2-0-1x_U007emarketing-0-85-220-7.png/246x0w.jpg" style="width: 80px; border-radius: 100%; margin-top: 20px; margin-bottom: 20px;">
-                <br/>
+                <img src="img/logo-ccnp.png" style="width: 80%; margin-top: 20px; margin-bottom: 20px;"/>
               </center>
               
               <ons-list>
@@ -25,7 +24,24 @@
                   Home
                 </ons-list-item>
                 <ons-list-item onclick="fn.load('home.html')" tappable>
+                  Trending
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('home.html')" tappable>
+                  All News
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('home.html')" tappable>
+                  Account
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('about.html')" tappable>
                   About
+                </ons-list-item>
+                <ons-list-item>
+                  <div class="center">
+                    Dark Mode
+                  </div>
+                  <div class="right">
+                    <ons-switch checked id="dark_mode" onchange="darkModeSwitch();"></ons-switch>
+                  </div>
                 </ons-list-item>
               </ons-list>
             </ons-page>
@@ -36,7 +52,19 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-
+        function darkModeSwitch(){
+          var sw = document.getElementById('dark_mode');
+          if (sw.checked) {
+            var cssStyle=document.getElementById('css_style');
+            cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
+            console.log('DARK');
+          }
+          else {
+            var cssStyle=document.getElementById('css_style');
+            cssStyle.setAttribute("href","onsenui/css/onsen-css-components.min.css");
+            console.log('LIGHT');
+          }
+        }
         // Side Nav
         window.fn = {};
 
@@ -63,6 +91,7 @@
           var target = document.getElementById('load_more');
           target.innerHTML = '<ons-progress-circular indeterminate></ons-progress-circular>';
         }
+        
 </script>
     </body>
 </html>
