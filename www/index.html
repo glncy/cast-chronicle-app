@@ -12,49 +12,10 @@
         <title>Hello World</title>
     </head>
     <body>
-        <ons-splitter>
-          <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
-            <ons-page>
-              <center>
-                <img src="img/logo-ccnp.png" style="width: 80%; margin-top: 20px; margin-bottom: 20px;"/>
-              </center>
-              
-              <ons-list>
-                <ons-list-item onclick="fn.load('home.html')" tappable>
-                  Home
-                </ons-list-item>
-                <ons-list-item onclick="fn.load('home.html')" tappable>
-                  Trending
-                </ons-list-item>
-                <ons-list-item onclick="" tappable>
-                  All News
-                </ons-list-item>
-                <ons-list-item onclick="fn.load('home.html')" tappable>
-                  Account
-                </ons-list-item>
-                <ons-list-item onclick="fn.load('about.html')" tappable>
-                  About
-                </ons-list-item>
-                <ons-list-item>
-                  <div class="center">
-                    Dark Mode
-                  </div>
-                  <div class="right">
-                    <ons-switch checked id="dark_mode" onchange="darkModeSwitch();"></ons-switch>
-                  </div>
-                </ons-list-item>
-              </ons-list>
-            </ons-page>
-          </ons-splitter-side>
-          <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
-        </ons-splitter>
-
-        <template>
-          <ons-page id="index">
-              <ons-navigator id="indexNavigator" page="home.html"></ons-navigator>
-          </ons-page>
-        </template>
-
+        <ons-page id="initial">
+            <ons-navigator id="content" page="login.html" animation="slide"></ons-navigator>
+        </ons-page>
+        
         <script src="js/quill.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
@@ -85,9 +46,24 @@
         window.fn.load = function(page) {
           var content = document.getElementById('content');
           var menu = document.getElementById('menu');
-          content.load(page)
+          content.pushPage(page)
             .then(menu.close.bind(menu));
         };
+
+        window.fn.pop = function() {
+          var content = document.getElementById('content');
+          content.popPage();
+        };
+
+        document.addEventListener('init', function(event) {
+        var page = event.target;
+
+        if (page.id === 'about') {
+          page.querySelector('#push-button').onclick = function() {
+            document.querySelector('#content').pushPage('about.html');
+          };
+        }
+      });
         
         // Switching Home Tab
         document.addEventListener('prechange', function(event) {
@@ -99,6 +75,14 @@
         function load_more(){
           var target = document.getElementById('load_more');
           target.innerHTML = '<ons-progress-circular indeterminate></ons-progress-circular>';
+        }
+
+        function signIn(){
+          var content = document.getElementById('content');
+          var menu = document.getElementById('menu');
+          //menu.setAttribute('swipeable');
+          content.load('home.html');
+          menu.load('menu.html');
         }
         
 </script>
