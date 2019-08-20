@@ -13,78 +13,16 @@
     </head>
     <body>
         <ons-page id="initial">
-            <ons-navigator id="content" page="login.html" animation="slide"></ons-navigator>
+            <ons-splitter>
+                <ons-splitter-side id="menu" side="left" width="220px" collapse>
+                </ons-splitter-side>
+                <ons-navigator id="content" page="splashscreen.html" animation="slide"></ons-navigator>
+            </ons-splitter>
         </ons-page>
         
         <script src="js/quill.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-        // DARK MODE SWITCH
-        function darkModeSwitch(){
-          var sw = document.getElementById('dark_mode');
-          if (sw.checked) {
-            var cssStyle=document.getElementById('css_style');
-            cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
-            console.log('DARK');
-          }
-          else {
-            var cssStyle=document.getElementById('css_style');
-            cssStyle.setAttribute("href","onsenui/css/onsen-css-components.min.css");
-            console.log('LIGHT');
-          }
-        }
-        
-        // Side Nav
-        window.fn = {};
-
-        window.fn.open = function() {
-          var menu = document.getElementById('menu');
-          menu.open();
-        };
-
-        window.fn.load = function(page) {
-          var content = document.getElementById('content');
-          var menu = document.getElementById('menu');
-          content.pushPage(page)
-            .then(menu.close.bind(menu));
-        };
-
-        window.fn.pop = function() {
-          var content = document.getElementById('content');
-          content.popPage();
-        };
-
-        document.addEventListener('init', function(event) {
-        var page = event.target;
-
-        if (page.id === 'about') {
-          page.querySelector('#push-button').onclick = function() {
-            document.querySelector('#content').pushPage('about.html');
-          };
-        }
-      });
-        
-        // Switching Home Tab
-        document.addEventListener('prechange', function(event) {
-          document.querySelector('ons-toolbar .center')
-            .innerHTML = event.tabItem.getAttribute('label');
-        });
-
-        // Loading Another News
-        function load_more(){
-          var target = document.getElementById('load_more');
-          target.innerHTML = '<ons-progress-circular indeterminate></ons-progress-circular>';
-        }
-
-        function signIn(){
-          var content = document.getElementById('content');
-          var menu = document.getElementById('menu');
-          //menu.setAttribute('swipeable');
-          content.load('home.html');
-          menu.load('menu.html');
-        }
-        
-</script>
     </body>
 </html>

@@ -4,7 +4,7 @@
             <img src="img/logo-ccnp.png" style="width: 80%; margin-bottom: 20%;"/>
         </center>
         <p>
-            <ons-input id="username" placeholder="ID Number" float modifier="underbar" style="width: 80%;margin-bottom: 5%;"></ons-input>
+            <ons-input id="studentId" placeholder="ID Number" float modifier="underbar" style="width: 80%;margin-bottom: 5%;"></ons-input>
         </p>
         <p>
             <ons-input
@@ -18,8 +18,8 @@
             </ons-input>
         </p>
 
-        <p>
-            <ons-button style="width: 80%;" onclick="signIn()">Sign in</ons-button>
+        <p id="signIn">
+            <ons-button style="width: 80%;" onclick="signIn()" id="signIdButton">Sign in</ons-button>
         </p>
     </div>
 </ons-page>
