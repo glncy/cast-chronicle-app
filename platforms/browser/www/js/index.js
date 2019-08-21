@@ -1,4 +1,4 @@
-const apiLink = "http://192.168.254.101/onlinepublishing-v2/api/";
+const apiLink = "http://192.168.254.138/onlinepublishing-v2/api/";
 //const apiLink = "http://127.0.0.1/onlinepublishing-v2/api/";
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -13,7 +13,7 @@ window.load = function(){
     content.replacePage('splashcreen.html');
 }
 
-alert(storage.getItem("access_token"));
+console.log(storage.getItem("access_token"));
 
 if (storage.getItem("access_token")!=null) {
     setTimeout(function () {
@@ -146,10 +146,115 @@ function signIn(){
 }
 
 function logOut(){
-    var confirm = ons.notification.confirm("Are you sure?",{
+    ons.notification.confirm("Are you sure?",{
         buttonLabels: ["No","Yes"],
         title: "Logout?"
+    }).then((response) => {
+        if (response) {
+            var menu = document.getElementById('menu');
+            var readyOnNext = false;
+            var token = storage.getItem("access_token");
+            $.ajax({
+                url: apiLink+"auth.php",
+                type: "post",
+                data: {
+                    access_token: token
+                },
+                beforeSend: function() {
+                    var dialog = document.getElementById('logout-process-dialog');
+                    if (dialog) {
+                        dialog.show();
+                    } 
+                    else {
+                        ons.createElement('logout-process-dialog.html', { append: true })
+                        .then(function(dialog) {
+                            dialog.show();
+                        });
+                    }
+                },
+                success: function(r) {
+                    var str = JSON.stringify(r);
+                    var obj = JSON.parse(str);
+                    console.log(r);
+                    if (obj.status == "success_logout"){
+                        readyOnNext = true;
+                        storage.removeItem("access_token");
+                        console.log(storage.getItem("access_token"));
+                    }
+                },
+                complete: function() {
+                    if (readyOnNext){
+                        setTimeout(function(){
+                            document.getElementById('logout-process-dialog').hide();
+                            menu.removeAttribute('swipeable');
+                            content.replacePage('login.html').then(menu.close.bind(menu));
+                            menu.innerHTML = "";
+                        },2000);
+                    }
+                    else {
+                        setTimeout(function(){
+                            document.getElementById('logout-process-dialog').hide();
+                            ons.notification.alert("Please try again.",{
+                                title: "Failed to Logout"
+                            });
+                        },2000);
+                    }
+                }
+            });
+        }
     });
-    console.log(confirm);
-    var token = storage.getItem("access_token");
 }
+
+// ons.ready(function() {
+//     var pullHook = document.getElementById('pull-hook');
+//     console.log(pullHook);
+//     pullHook.addEventListener('changestate', function(event) {
+//       var message = '';
+  
+//       switch (event.state) {
+//         case 'initial':
+//           message = 'Pull to refresh';
+//           break;
+//         case 'preaction':
+//           message = 'Release';
+//           break;
+//         case 'action':
+//           message = 'Loading...';
+//           break;
+//       }
+  
+//       pullHook.innerHTML = message;
+//     });
+  
+//     pullHook.onAction = function(done) {
+//       setTimeout(done, 1000);
+//     };
+//   });
+
+  document.addEventListener('init', function(event) {
+    if (event.target.matches('#latest-news')) {
+        var pullHook = document.getElementById('pull-hook');
+        console.log(pullHook);
+        pullHook.addEventListener('changestate', function(event) {
+            var message = '';
+        
+            switch (event.state) {
+            case 'initial':
+                message = 'Pull to refresh';
+                break;
+            case 'preaction':
+                message = 'Release';
+                break;
+            case 'action':
+                message = 'Loading...';
+                break;
+            }
+        
+            pullHook.innerHTML = message;
+        });
+        
+        pullHook.onAction = function(done) {
+            setTimeout(done, 1000);
+        };
+    }
+  }, false);
