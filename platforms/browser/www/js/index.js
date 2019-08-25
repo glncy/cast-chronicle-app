@@ -428,7 +428,7 @@ else if (event.target.matches('#sports-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "1", count: "true", params: "id,user_id,title,up_timestamp", category: "sports"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "sports"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -537,7 +537,7 @@ else if (event.target.matches('#entertainment-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "1", count: "true", params: "id,user_id,title,up_timestamp", category: "entertainment"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "entertainment"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
