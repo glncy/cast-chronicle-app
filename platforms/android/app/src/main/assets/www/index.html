@@ -19,6 +19,15 @@
                 <ons-navigator id="content" page="splashscreen.html" animation="slide"></ons-navigator>
             </ons-splitter>
         </ons-page>
+
+        <template id="logout-process-dialog.html">
+            <ons-alert-dialog id="logout-process-dialog" modifier="rowfooter">
+                <div class="alert-dialog-title"><center>Logging Out...</center></div>
+                <div class="alert-dialog-content">
+                    <center><ons-progress-circular indeterminate></ons-progress-circular></center>
+                </div>
+            </ons-alert-dialog>
+          </template>
         
         <script src="js/quill.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>

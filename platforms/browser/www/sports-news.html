@@ -1,11 +1,15 @@
 <ons-page id="sports-news">
-    <ons-card>
-        <img src="https://monaca.io/img/logos/download_image_onsenui_01.png" alt="Onsen UI" style="width: 100%">
-        <div class="title">
-            Tab 2
-        </div>
-        <div class="content">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi sed dignissimos modi quia tempora, minus aliquid autem repellendus esse dolorum quis fugiat at commodi possimus aut! Laudantium nemo ad et.</p>
-        </div>
-    </ons-card>
+    <ons-pull-hook id="pull-hook-sports" disabled>
+        Pull to refresh
+    </ons-pull-hook>
+    <div id="sports-news-error" style="display: none;">
+        <center><div style="margin-top: 30px;">No Available News. Try to Refresh Later.</div></center>
+    </div>
+    <div id="sports-news-content">
+    </div>
+    <center>
+    <div id="sports-news-load" style="padding-top: 10px; padding-bottom: 10px;">
+        <ons-progress-circular indeterminate></ons-progress-circular>
+    </div>
+    </center>
 </ons-page>
