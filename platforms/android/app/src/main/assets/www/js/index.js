@@ -2,8 +2,10 @@ const apiLink = "http://192.168.254.101/onlinepublishing-v2/api/";
 //const apiLink = "http://127.0.0.1/onlinepublishing-v2/api/";
 
 document.addEventListener("deviceready", onDeviceReady, false);
+
 function onDeviceReady() {
-    //navigator.splashscreen.show();
+    console.log(device.model);
+    // navigator.splashscreen.show();
 }
 
 var content = document.getElementById('content');
@@ -212,22 +214,44 @@ function logOut(){
 // Loading Another News
 function load_more(target_id){
     document.getElementById(target_id+"-load").innerHTML = "<ons-progress-circular indeterminate></ons-progress-circular>";
+    if (target_id == "all-news") {
+        var data = {
+            start: endArticleTimestamp-1, limit: "20", params: "id,user_id,title,up_timestamp"
+        };
+        var countDate = {
+            count: "only_count"
+        }
+    }
+    else if (target_id == "sports-news"){
+        var data = {
+            start: endArticleTimestamp-1, limit: "20", params: "id,user_id,title,up_timestamp", category: "sports"
+        };
+        var countDate = {
+            count: "only_count", category: "sports"
+        }
+    }
+    else if (target_id == "entertainment-news"){
+        var data = {
+            start: endArticleTimestamp_2-1, limit: "20", params: "id,user_id,title,up_timestamp", category: "entertainment"
+        };
+        var countDate = {
+            count: "only_count", category: "entertainment"
+        }
+    }
     $.ajax({
         url: apiLink+"article.php",
         type: "get",
-        data: {
-            start: endArticleTimestamp-1, limit: "10"
-        },
+        data: data,
         success: function(r) {
             var str = JSON.stringify(r);
             var obj = JSON.parse(str);
             var loopTotal = obj.length;
-
+            console.log(obj);
             if (typeof obj.message === 'undefined'){
                 var loop = 0
                 while (loop < loopTotal){
                     displayNews = "";
-                    displayNews += "<ons-card onclick=\"article();\">";
+                    displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                     displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
                     displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                     displayNews += "</ons-card>";
@@ -235,7 +259,12 @@ function load_more(target_id){
                     totalArticleCount++;
                     $("#"+target_id+"-content").append(displayNews);
                 }
-                endArticleTimestamp = obj[loop-1].up_timestamp;
+                if (target_id == "sports-news"){
+                    endArticleTimestamp = obj[loop-1].up_timestamp;
+                }
+                else if (target_id == "sports-news"){
+                    endArticleTimestamp_2 = obj[loop-1].up_timestamp;
+                }
             }
             else {
                 setTimeout(function(){
@@ -247,9 +276,7 @@ function load_more(target_id){
             $.ajax({
                 url: apiLink+"article.php",
                 type: "get",
-                data: {
-                    count: "only_count"
-                },
+                data: countDate,
                 success: function(r) {
                     var str = JSON.stringify(r);
                     var obj = JSON.parse(str);
@@ -259,7 +286,7 @@ function load_more(target_id){
                 complete: function(){
                     if (ServerArticlesCount > totalArticleCount) {
                         setTimeout(function(){
-                            document.getElementById(target_id+"-load").innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('all-news');\">Load More</ons-button>";
+                            document.getElementById(target_id+"-load").innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('"+target_id+"');\">Load More</ons-button>";
                         },2000);   
                     }
                     else {
@@ -276,11 +303,12 @@ function load_more(target_id){
 }
 
 var endArticleTimestamp = "";
+var endArticleTimestamp_2 = "";
 var totalArticleCount = 0;
+var totalArticleCount_2 = 0;
 var latestNewsError, latestNewsContent;
 document.addEventListener('init', function(event) {
 var page = event.target;
-console.log(page.id);
 if (event.target.matches('#latest-news')) {
     latestNewsError = document.getElementById("latest-news-error");
     latestNewsContent = document.getElementById("latest-news-content");
@@ -316,18 +344,19 @@ if (event.target.matches('#latest-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20"
+                start: currentTimestamp, limit: "20", params: "id,user_id,title,up_timestamp"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
                 var obj = JSON.parse(str);
+                console.log(r);
                 var loopTotal = obj.length;
     
                 if (typeof obj.message === 'undefined'){
                     showNews = true;
                     var loop = 0
                     while (loop < loopTotal){
-                        displayNews += "<ons-card onclick=\"article();\">";
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
@@ -369,7 +398,8 @@ else if (event.target.matches('#sports-news')) {
             message = 'Pull to refresh';
             break;
         case 'action':
-            message = '<ons-progress-circular indeterminate></ons-progress-circular>';
+            SportsNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
             break;
         }
     
@@ -379,6 +409,200 @@ else if (event.target.matches('#sports-news')) {
     pullHook.onAction = function(done) {
         setTimeout(done, 1000);
     };
+
+    var SportsNewsContent = document.getElementById('sports-news-content');
+    var SportsNewsError = document.getElementById('sports-news-error');
+    var SportsNewsLoad = document.getElementById('sports-news-load');
+
+    SportsNews(true);
+
+    function SportsNews(reset){
+        if (reset) {
+            totalArticleCount = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "sports"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount++;
+                    }
+                    endArticleTimestamp = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "sports"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        console.log(ServerArticlesCount);
+                        console.log("ARTICLE COUNT: "+totalArticleCount);
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount) {
+                                setTimeout(function(){
+                                    SportsNewsError.style.display = "none";
+                                    SportsNewsContent.innerHTML = displayNews;
+                                    SportsNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    SportsNewsError.style.display = "none";
+                                    SportsNewsContent.innerHTML = displayNews;
+                                    SportsNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                SportsNewsError.style.display = "initial";
+                                SportsNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
+else if (event.target.matches('#entertainment-news')) {
+    var pullHook = document.getElementById('pull-hook-entertainment');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            EntertainmentNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var EntertainmentNewsContent = document.getElementById('entertainment-news-content');
+    var EntertainmentNewsError = document.getElementById('entertainment-news-error');
+    var EntertainmentNewsLoad = document.getElementById('entertainment-news-load');
+
+    EntertainmentNews(true);
+
+    function EntertainmentNews(reset){
+        if (reset) {
+            totalArticleCount_2 = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "entertainment"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount_2++;
+                    }
+                    endArticleTimestamp_2 = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "entertainment"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount_2) {
+                                setTimeout(function(){
+                                    EntertainmentNewsError.style.display = "none";
+                                    EntertainmentNewsContent.innerHTML = displayNews;
+                                    EntertainmentNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('entertainment-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    EntertainmentNewsError.style.display = "none";
+                                    EntertainmentNewsContent.innerHTML = displayNews;
+                                    EntertainmentNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                EntertainmentNewsError.style.display = "initial";
+                                EntertainmentNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
 }
 else if (event.target.matches('#all-news')) {
     var pullHook = document.getElementById('pull-hook');
@@ -408,6 +632,7 @@ else if (event.target.matches('#all-news')) {
     document.getElementById('backButton').addEventListener('click',function(){
         menu.setAttribute('swipeable');
     });
+
     var AllNewsContent = document.getElementById('all-news-content');
     var AllNewsError = document.getElementById('all-news-error');
     var AllNewsLoad = document.getElementById('all-news-load');
@@ -426,18 +651,20 @@ else if (event.target.matches('#all-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
                 var obj = JSON.parse(str);
+                console.log(obj);
                 var loopTotal = obj.length-1;
     
                 if (typeof obj.message === 'undefined'){
                     showNews = true;
+
                     var loop = 0
                     while (loop < loopTotal){
-                        displayNews += "<ons-card onclick=\"article();\">";
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
@@ -463,6 +690,7 @@ else if (event.target.matches('#all-news')) {
                         if (showNews){
                             if (ServerArticlesCount > totalArticleCount) {
                                 setTimeout(function(){
+                                    AllNewsError.style.display = "none";
                                     AllNewsContent.innerHTML = displayNews;
                                     AllNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('all-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
@@ -470,6 +698,7 @@ else if (event.target.matches('#all-news')) {
                             }
                             else {
                                 setTimeout(function(){
+                                    AllNewsError.style.display = "none";
                                     AllNewsContent.innerHTML = displayNews;
                                     AllNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
@@ -497,8 +726,46 @@ else if (event.target.matches('#about')){
         menu.setAttribute('swipeable');
     });
 }
+else if (event.target.matches('#article')){
+    console.log(page.data.article_id);
+
+    $.ajax({
+        url: apiLink+"article.php",
+        type: "get",
+        data: {
+            article_id: page.data.article_id
+        },
+        success: function(r) {
+            var str = JSON.stringify(r);
+            var obj = JSON.parse(str);
+            console.log(obj);
+            document.getElementById("article-title").innerHTML = "<strong>"+obj[0].title+"</strong>";
+            document.getElementById("article-writer").innerHTML = "<i>"+obj[0].user_details.fname+" "+obj[0].user_details.lname+"</i>";
+            document.getElementById("article-datetime").innerHTML = obj[0].date_time;
+            document.getElementById("article-body").innerHTML = obj[0].body;
+        }, 
+        complete: function(){
+            setTimeout(function(){
+                document.getElementById("article-load").style.display = "none";
+                document.getElementById("article-content").style.display = "initial";
+            },3000);
+        }
+    });
+
+    document.addEventListener("backbutton", function(){
+        menu.setAttribute('swipeable');
+    }, false);
+    document.getElementById('backButton').addEventListener('click',function(){
+        menu.setAttribute('swipeable');
+    });
+}
 }, false);
 
-function article(){
-    content.pushPage("article.html");
+function article(id){
+    menu.removeAttribute('swipeable');
+    content.pushPage("article.html", {
+        data: {
+            article_id: id
+        }
+    });
 }

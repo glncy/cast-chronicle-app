@@ -1,15 +1,31 @@
 <ons-page id="article">
     <ons-toolbar>
         <div class="left">
-            <div class="left"><ons-back-button></ons-back-button></div>
+            <div class="left"><ons-back-button id="backButton"></ons-back-button></div>
         </div>
         <div class="center">
             News
         </div>
     </ons-toolbar>
-    <div id="all-news-error" style="display: none;">
-        <center><div style="margin-top: 30px;">No Available News. Try to Refresh Later.</div></center>
+    <div id="article-error" style="display: none;">
+        <center><div style="margin-top: 30px;">This News is not Available right now.</div></center>
     </div>
-    <div id="all-news-content">
+    <div id="article-load" style="padding-top: 10px; padding-bottom: 10px;">
+        <center><ons-progress-circular indeterminate></ons-progress-circular></center>
+    </div>
+    <div id="article-content" style="display: none;">
+        <div style="margin-left: 12px; margin-right: 12px;">
+            <p>
+                <div style="margin-bottom: 10px; font-size: 22px;" id="article-title">
+                </div>
+                <div id="article-writer">
+                </div>
+                <div style="font-size: 14px" id="article-datetime">
+                </div>
+                <br/>
+                <div id="article-body" class="ql-editor">
+                </div>
+            </p>
+        </div>
     </div>
 </ons-page>
