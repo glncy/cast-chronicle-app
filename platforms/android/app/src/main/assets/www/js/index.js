@@ -1,4 +1,4 @@
-const apiLink = "http://192.168.254.101/onlinepublishing-v2/api/";
+const apiLink = "http://192.168.137.20/onlinepublishing-v2/api/";
 //const apiLink = "http://127.0.0.1/onlinepublishing-v2/api/";
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -7,7 +7,7 @@ function onDeviceReady() {
     console.log(device.model);
     // navigator.splashscreen.show();
 }
-
+var sw,cssStyle;
 var content = document.getElementById('content');
 var storage = window.localStorage;
 
@@ -19,10 +19,10 @@ window.load = function(){
 
 if (storage.getItem("access_token")!=null) {
     setTimeout(function () {
-        content.replacePage('home.html');
         var menu = document.getElementById('menu');
         menu.setAttribute('swipeable');
         menu.load('menu.html');
+        content.replacePage('home.html');
     },3000);
 }
 else {
@@ -34,16 +34,13 @@ else {
 
 // DARK MODE SWITCH
 function darkModeSwitch(){
-    var sw = document.getElementById('dark_mode');
     if (sw.checked) {
-        var cssStyle=document.getElementById('css_style');
         cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
-        console.log('DARK');
+        storage.setItem("dark_mode", "on");
     }
     else {
-        var cssStyle=document.getElementById('css_style');
         cssStyle.setAttribute("href","onsenui/css/onsen-css-components.min.css");
-        console.log('LIGHT');
+        storage.setItem("dark_mode", "off");
     }
 }
 
@@ -310,6 +307,16 @@ var latestNewsError, latestNewsContent;
 document.addEventListener('init', function(event) {
 var page = event.target;
 if (event.target.matches('#latest-news')) {
+
+    sw = document.getElementById('dark_mode');
+    if (storage.getItem("dark_mode")=="on") {
+        sw.setAttribute("checked");
+    }
+    else {
+        sw.removeAttribute("checked");
+    }
+
+
     latestNewsError = document.getElementById("latest-news-error");
     latestNewsContent = document.getElementById("latest-news-content");
     var pullHook = document.getElementById('pull-hook-latest');
@@ -758,6 +765,15 @@ else if (event.target.matches('#article')){
     document.getElementById('backButton').addEventListener('click',function(){
         menu.setAttribute('swipeable');
     });
+}
+else if (event.target.matches('#splashscreen')){
+    cssStyle=document.getElementById('css_style');
+    if (storage.getItem("dark_mode")=="on") {
+        cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
+    }
+    else {
+        cssStyle.setAttribute("href","onsenui/css/onsen-css-components.min.css");
+    }
 }
 }, false);
 
