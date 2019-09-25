@@ -1,4 +1,4 @@
-const apiLink = "http://192.168.137.20/onlinepublishing-v2/api/";
+const apiLink = " https://4f074f65.ngrok.io/onlinepublishing-v2/api/";
 //const apiLink = "http://127.0.0.1/onlinepublishing-v2/api/";
 
 document.addEventListener("deviceready", onDeviceReady, false);
