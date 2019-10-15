@@ -1,0 +1,23 @@
+<ons-page id="devcomm-news">
+    <ons-toolbar>
+        <div class="left">
+            <div class="left"><ons-back-button id="backButton"></ons-back-button></div>
+        </div>
+        <div class="center">
+            Devcomm
+        </div>
+    </ons-toolbar>
+    <ons-pull-hook id="pull-hook-devcomm" disabled>
+        Pull to refresh
+    </ons-pull-hook>
+    <div id="devcomm-news-error" style="display: none;">
+        <center><div style="margin-top: 30px;">No Available News. Try to Refresh Later.</div></center>
+    </div>
+    <div id="devcomm-news-content">
+    </div>
+    <center>
+    <div id="devcomm-news-load" style="padding-top: 10px; padding-bottom: 10px;">
+        <ons-progress-circular indeterminate></ons-progress-circular>
+    </div>
+    </center>
+</ons-page>

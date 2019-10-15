@@ -1,15 +1,23 @@
-const apiLink = "http://192.168.137.20/onlinepublishing-v2/api/";
-//const apiLink = "http://127.0.0.1/onlinepublishing-v2/api/";
+//const apiLink = " https://4f074f65.ngrok.io/onlinepublishing-v2/api/";
+const apiLink = "http://127.0.0.1/onlinepublishing-v2/api/";
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
-function onDeviceReady() {
-    console.log(device.model);
-    // navigator.splashscreen.show();
-}
 var sw,cssStyle;
 var content = document.getElementById('content');
 var storage = window.localStorage;
+
+function onDeviceReady() {
+    console.log(device.model);
+    cssStyle=document.getElementById('css_style');
+    if ((storage.getItem("dark_mode")=="on")||(storage.getItem("dark_mode")==null)) {
+        cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
+    }
+    else {
+        cssStyle.setAttribute("href","onsenui/css/onsen-css-components.min.css");
+    }
+    // navigator.splashscreen.show();
+}
 
 window.load = function(){
     content.replacePage('splashcreen.html');
@@ -18,12 +26,41 @@ window.load = function(){
 // console.log(storage.getItem("access_token"));
 
 if (storage.getItem("access_token")!=null) {
-    setTimeout(function () {
-        var menu = document.getElementById('menu');
-        menu.setAttribute('swipeable');
-        menu.load('menu.html');
-        content.replacePage('home.html');
-    },3000);
+    console.log(storage.getItem("access_token"));
+    var inNext = false;
+    $.ajax({
+        url: apiLink+"auth.php",
+        type: "get",
+        data: {
+            access_token: storage.getItem("access_token")
+        },
+        success: function(r){
+            var str = JSON.stringify(r);
+            var obj = JSON.parse(str);
+            //console.log(r);
+            if (typeof obj.id !== "undefined") {
+                inNext = true
+            }
+        }, 
+        complete: function(){
+            if (inNext) {
+                setTimeout(function () {
+                    var menu = document.getElementById('menu');
+                    //menu.setAttribute('swipeable');
+                    menu.load('menu.html');
+                    content.replacePage('home.html');
+                },3000);
+            }
+            else {
+                setTimeout(function () {
+                    storage.removeItem("access_token");
+                    storage.removeItem("dark_mode");
+                    cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
+                    content.replacePage('login.html');
+                },3000);
+            }
+        }
+    });
 }
 else {
     setTimeout(function () {
@@ -34,6 +71,7 @@ else {
 
 // DARK MODE SWITCH
 function darkModeSwitch(){
+    console.log(sw.checked);
     if (sw.checked) {
         cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
         storage.setItem("dark_mode", "on");
@@ -59,12 +97,52 @@ window.fn.load = function(page) {
         menu.close();
     }
     else if (page == "about.html") {
-        menu.removeAttribute('swipeable');
+        //menu.removeAttribute('swipeable');
         menu.close();
         content.pushPage(page);
     }
     else if (page == "all-news.html") {
-        menu.removeAttribute('swipeable');
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
+    else if (page == "sports-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
+    else if (page == "entertainment-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
+    else if (page == "news-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
+    else if (page == "devcomm-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
+    else if (page == "feature-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
+    else if (page == "editorial-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
+    else if (page == "opinion-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
+    else if (page == "literary-news.html") {
+        //menu.removeAttribute('swipeable');
         menu.close();
         content.pushPage(page);
     }
@@ -124,7 +202,7 @@ function signIn(){
                     },2000);
                     setTimeout(function(){
                         var menu = document.getElementById('menu');
-                        menu.setAttribute('swipeable');
+                        //menu.setAttribute('swipeable');
                         content.replacePage('home.html');
                         menu.load('menu.html');
                     },2000);
@@ -181,7 +259,6 @@ function logOut(){
                     // console.log(r);
                     if (obj.status == "success_logout"){
                         readyOnNext = true;
-                        storage.removeItem("access_token");
                         // console.log(storage.getItem("access_token"));
                     }
                 },
@@ -189,9 +266,12 @@ function logOut(){
                     if (readyOnNext){
                         setTimeout(function(){
                             document.getElementById('logout-process-dialog').hide();
-                            menu.removeAttribute('swipeable');
+                            //menu.removeAttribute('swipeable');
                             content.replacePage('login.html').then(menu.close.bind(menu));
                             menu.innerHTML = "";
+                            storage.removeItem("access_token");
+                            storage.removeItem("dark_mode");
+                            cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
                         },2000);
                     }
                     else {
@@ -309,7 +389,7 @@ var page = event.target;
 if (event.target.matches('#latest-news')) {
 
     sw = document.getElementById('dark_mode');
-    if (storage.getItem("dark_mode")=="on") {
+    if ((storage.getItem("dark_mode")=="on")||(storage.getItem("dark_mode")==null)) {
         sw.setAttribute("checked");
     }
     else {
@@ -435,7 +515,7 @@ else if (event.target.matches('#sports-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "sports"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "sports"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -504,6 +584,551 @@ else if (event.target.matches('#sports-news')) {
         });
     }
 }
+else if (event.target.matches('#devcomm-news')) {
+    var pullHook = document.getElementById('pull-hook-devcomm');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            DevcommNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var DevcommNewsContent = document.getElementById('devcomm-news-content');
+    var DevcommNewsError = document.getElementById('devcomm-news-error');
+    var DevcommNewsLoad = document.getElementById('devcomm-news-load');
+
+    DevcommNews(true);
+
+    function DevcommNews(reset){
+        if (reset) {
+            totalArticleCount = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "devcomm"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount++;
+                    }
+                    endArticleTimestamp = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "devcomm"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        console.log(ServerArticlesCount);
+                        console.log("ARTICLE COUNT: "+totalArticleCount);
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount) {
+                                setTimeout(function(){
+                                    DevcommNewsError.style.display = "none";
+                                    DevcommNewsContent.innerHTML = displayNews;
+                                    DevcommNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    DevcommNewsError.style.display = "none";
+                                    DevcommNewsContent.innerHTML = displayNews;
+                                    DevcommNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                DevcommNewsError.style.display = "initial";
+                                DevcommNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
+else if (event.target.matches('#feature-news')) {
+    var pullHook = document.getElementById('pull-hook-feature');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            FeatureNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var FeatureNewsContent = document.getElementById('feature-news-content');
+    var FeatureNewsError = document.getElementById('feature-news-error');
+    var FeatureNewsLoad = document.getElementById('feature-news-load');
+
+    FeatureNews(true);
+
+    function FeatureNews(reset){
+        if (reset) {
+            totalArticleCount = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "feature"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount++;
+                    }
+                    endArticleTimestamp = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "feature"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        console.log(ServerArticlesCount);
+                        console.log("ARTICLE COUNT: "+totalArticleCount);
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount) {
+                                setTimeout(function(){
+                                    FeatureNewsError.style.display = "none";
+                                    FeatureNewsContent.innerHTML = displayNews;
+                                    FeatureNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    FeatureNewsError.style.display = "none";
+                                    FeatureNewsContent.innerHTML = displayNews;
+                                    FeatureNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                FeatureNewsError.style.display = "initial";
+                                FeatureNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
+else if (event.target.matches('#editorial-news')) {
+    var pullHook = document.getElementById('pull-hook-editorial');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            EditorialNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var EditorialNewsContent = document.getElementById('editorial-news-content');
+    var EditorialNewsError = document.getElementById('editorial-news-error');
+    var EditorialNewsLoad = document.getElementById('editoral-news-load');
+
+    EditorialNews(true);
+
+    function EditorialNews(reset){
+        if (reset) {
+            totalArticleCount = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "editorial"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount++;
+                    }
+                    endArticleTimestamp = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "editorial"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        console.log(ServerArticlesCount);
+                        console.log("ARTICLE COUNT: "+totalArticleCount);
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount) {
+                                setTimeout(function(){
+                                    EditorialNewsError.style.display = "none";
+                                    EditorialNewsContent.innerHTML = displayNews;
+                                    EditorialNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    EditorialNewsError.style.display = "none";
+                                    EditorialNewsContent.innerHTML = displayNews;
+                                    EditorialNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                EditorialNewsError.style.display = "initial";
+                                EditorialNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
+else if (event.target.matches('#opinion-news')) {
+    var pullHook = document.getElementById('pull-hook-opinion');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            OpinionNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var OpinionNewsContent = document.getElementById('opinion-news-content');
+    var OpinionNewsError = document.getElementById('opinion-news-error');
+    var OpinionNewsLoad = document.getElementById('opinion-news-load');
+
+    OpinionNews(true);
+
+    function OpinionNews(reset){
+        if (reset) {
+            totalArticleCount = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "opinion"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount++;
+                    }
+                    endArticleTimestamp = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "opinion"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        console.log(ServerArticlesCount);
+                        console.log("ARTICLE COUNT: "+totalArticleCount);
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount) {
+                                setTimeout(function(){
+                                    OpinionNewsError.style.display = "none";
+                                    OpinionNewsContent.innerHTML = displayNews;
+                                    OpinionNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    OpinionNewsError.style.display = "none";
+                                    OpinionNewsContent.innerHTML = displayNews;
+                                    OpinionNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                OpinionNewsError.style.display = "initial";
+                                OpinionNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
+else if (event.target.matches('#literary-news')) {
+    var pullHook = document.getElementById('pull-hook-literary');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            LiteraryNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var LiteraryNewsContent = document.getElementById('literary-news-content');
+    var LiteraryNewsError = document.getElementById('literary-news-error');
+    var LiteraryNewsLoad = document.getElementById('literary-news-load');
+
+    LiteraryNews(true);
+
+    function LiteraryNews(reset){
+        if (reset) {
+            totalArticleCount = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "literary"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount++;
+                    }
+                    endArticleTimestamp = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "literary"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        console.log(ServerArticlesCount);
+                        console.log("ARTICLE COUNT: "+totalArticleCount);
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount) {
+                                setTimeout(function(){
+                                    LiteraryNewsError.style.display = "none";
+                                    LiteraryNewsContent.innerHTML = displayNews;
+                                    LiteraryNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    LiteraryNewsError.style.display = "none";
+                                    LiteraryNewsContent.innerHTML = displayNews;
+                                    LiteraryNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                LiteraryNewsError.style.display = "initial";
+                                LiteraryNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
 else if (event.target.matches('#entertainment-news')) {
     var pullHook = document.getElementById('pull-hook-entertainment');
     pullHook.addEventListener('changestate', function(event) {
@@ -544,7 +1169,7 @@ else if (event.target.matches('#entertainment-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "entertainment"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "entertainment"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -611,7 +1236,121 @@ else if (event.target.matches('#entertainment-news')) {
         });
     }
 }
+else if (event.target.matches('#news-news')) {
+    var pullHook = document.getElementById('pull-hook-news');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            NewsNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var NewsNewsContent = document.getElementById('news-news-content');
+    var NewsNewsError = document.getElementById('news-news-error');
+    var NewsNewsLoad = document.getElementById('news-news-load');
+
+    NewsNews(true);
+
+    function NewsNews(reset){
+        if (reset) {
+            totalArticleCount_2 = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "news"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount_2++;
+                    }
+                    endArticleTimestamp_2 = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "news"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount_2) {
+                                setTimeout(function(){
+                                    NewsNewsError.style.display = "none";
+                                    NewsNewsContent.innerHTML = displayNews;
+                                    NewsNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('entertainment-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    NewsNewsError.style.display = "none";
+                                    NewsNewsContent.innerHTML = displayNews;
+                                    NewsNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                NewsNewsError.style.display = "initial";
+                                NewsNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
 else if (event.target.matches('#all-news')) {
+    sw = document.getElementById('dark_mode');
+    if ((storage.getItem("dark_mode")=="on")||(storage.getItem("dark_mode")==null)) {
+        sw.setAttribute("checked");
+    }
+    else {
+        sw.removeAttribute("checked");
+    }
     var pullHook = document.getElementById('pull-hook');
     pullHook.addEventListener('changestate', function(event) {
         var message = '';
@@ -633,12 +1372,12 @@ else if (event.target.matches('#all-news')) {
         setTimeout(done, 1000);
     };
 
-    document.addEventListener("backbutton", function(){
-        menu.setAttribute('swipeable');
-    }, false);
-    document.getElementById('backButton').addEventListener('click',function(){
-        menu.setAttribute('swipeable');
-    });
+    // document.addEventListener("backbutton", function(){
+    //     menu.setAttribute('swipeable');
+    // }, false);
+    // document.getElementById('backButton').addEventListener('click',function(){
+    //     menu.setAttribute('swipeable');
+    // });
 
     var AllNewsContent = document.getElementById('all-news-content');
     var AllNewsError = document.getElementById('all-news-error');
@@ -658,7 +1397,7 @@ else if (event.target.matches('#all-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -673,6 +1412,9 @@ else if (event.target.matches('#all-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -726,12 +1468,12 @@ else if (event.target.matches('#all-news')) {
     }
 }
 else if (event.target.matches('#about')){
-    document.addEventListener("backbutton", function(){
-        menu.setAttribute('swipeable');
-    }, false);
-    document.getElementById('backButton').addEventListener('click',function(){
-        menu.setAttribute('swipeable');
-    });
+    // document.addEventListener("backbutton", function(){
+    //     menu.setAttribute('swipeable');
+    // }, false);
+    // document.getElementById('backButton').addEventListener('click',function(){
+    //     menu.setAttribute('swipeable');
+    // });
 }
 else if (event.target.matches('#article')){
     console.log(page.data.article_id);
@@ -759,26 +1501,17 @@ else if (event.target.matches('#article')){
         }
     });
 
-    document.addEventListener("backbutton", function(){
-        menu.setAttribute('swipeable');
-    }, false);
-    document.getElementById('backButton').addEventListener('click',function(){
-        menu.setAttribute('swipeable');
-    });
-}
-else if (event.target.matches('#splashscreen')){
-    cssStyle=document.getElementById('css_style');
-    if (storage.getItem("dark_mode")=="on") {
-        cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
-    }
-    else {
-        cssStyle.setAttribute("href","onsenui/css/onsen-css-components.min.css");
-    }
+    // document.addEventListener("backbutton", function(){
+    //     menu.setAttribute('swipeable');
+    // }, false);
+    // document.getElementById('backButton').addEventListener('click',function(){
+    //     menu.setAttribute('swipeable');
+    // });
 }
 }, false);
 
 function article(id){
-    menu.removeAttribute('swipeable');
+    //menu.removeAttribute('swipeable');
     content.pushPage("article.html", {
         data: {
             article_id: id
