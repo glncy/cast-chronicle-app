@@ -386,6 +386,7 @@ var totalArticleCount_2 = 0;
 var latestNewsError, latestNewsContent;
 document.addEventListener('init', function(event) {
 var page = event.target;
+//console.log(event.target.id);
 if (event.target.matches('#latest-news')) {
 
     sw = document.getElementById('dark_mode');
@@ -1060,7 +1061,7 @@ else if (event.target.matches('#literary-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "devcomm"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "literary"
             },
             success: function(r) {
                 var str = JSON.stringify(r);

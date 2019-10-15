@@ -386,6 +386,7 @@ var totalArticleCount_2 = 0;
 var latestNewsError, latestNewsContent;
 document.addEventListener('init', function(event) {
 var page = event.target;
+//console.log(event.target.id);
 if (event.target.matches('#latest-news')) {
 
     sw = document.getElementById('dark_mode');
