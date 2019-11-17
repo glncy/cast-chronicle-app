@@ -146,6 +146,11 @@ window.fn.load = function(page) {
         menu.close();
         content.pushPage(page);
     }
+    else if (page == "search.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
 };
 
 // window.fn.pop = function() {
@@ -379,6 +384,77 @@ function load_more(target_id){
     //target.innerHTML = '<ons-progress-circular indeterminate></ons-progress-circular>';
 }
 
+function searchArticle(val){
+    //console.log(val.length);
+
+    if (val.length >= 3){
+        search();
+    }
+    else if (val.length == 0){
+        document.getElementById('searchContent').innerHTML = '';
+    }
+    else {
+        document.getElementById('searchContent').innerHTML = '<center><div style="margin-top: 8%;">Loading...</div></center>';
+    }
+
+    function search(){
+        //var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                search: val, params: "id,user_id,title,up_timestamp,img"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(r);
+                var loopTotal = obj.length;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
+                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                    }
+                    //endArticleTimestamp = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                if (showNews){
+                    // setTimeout(function(){
+                        // if (status == "initial"){
+                        //     document.getElementById('latest-news-load').remove();
+                        // }
+                        document.getElementById('searchContent').innerHTML = displayNews;
+                        // pullHook.removeAttribute('disabled');
+                    // },2000);
+                }
+                else {
+                    document.getElementById('searchContent').innerHTML = '<center><div style="margin-top: 8%;">No Result</div></center>';
+                    // setTimeout(function(){
+                        // if (status == "initial"){
+                        //     document.getElementById('latest-news-load').remove();
+                        // }
+                        // latestNewsError.style.display = "initial";
+                        // pullHook.removeAttribute('disabled');
+                    // },2000);
+                }
+            }
+        });
+    }
+}
+
 var endArticleTimestamp = "";
 var endArticleTimestamp_2 = "";
 var totalArticleCount = 0;
@@ -432,7 +508,7 @@ if (event.target.matches('#latest-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", params: "id,user_id,title,up_timestamp"
+                start: currentTimestamp, limit: "20", params: "id,user_id,title,up_timestamp,img"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -446,6 +522,9 @@ if (event.target.matches('#latest-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -531,6 +610,9 @@ else if (event.target.matches('#sports-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -625,7 +707,7 @@ else if (event.target.matches('#devcomm-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "devcomm"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "devcomm"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -640,6 +722,9 @@ else if (event.target.matches('#devcomm-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -734,7 +819,7 @@ else if (event.target.matches('#feature-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "feature"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "feature"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -749,6 +834,9 @@ else if (event.target.matches('#feature-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -843,7 +931,7 @@ else if (event.target.matches('#editorial-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "editorial"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "editorial"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -858,6 +946,9 @@ else if (event.target.matches('#editorial-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -952,7 +1043,7 @@ else if (event.target.matches('#opinion-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "opinion"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "opinion"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -967,6 +1058,9 @@ else if (event.target.matches('#opinion-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -1061,7 +1155,7 @@ else if (event.target.matches('#literary-news')) {
             url: apiLink+"article.php",
             type: "get",
             data: {
-                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp", category: "literary"
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "literary"
             },
             success: function(r) {
                 var str = JSON.stringify(r);
@@ -1076,6 +1170,9 @@ else if (event.target.matches('#literary-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -1185,6 +1282,9 @@ else if (event.target.matches('#entertainment-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
@@ -1292,6 +1392,9 @@ else if (event.target.matches('#news-news')) {
                     while (loop < loopTotal){
                         displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
                         displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
                         displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
                         displayNews += "</ons-card>";
                         loop++;
