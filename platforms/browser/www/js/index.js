@@ -575,7 +575,7 @@ if (event.target.matches('#latest-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                     }
@@ -663,7 +663,7 @@ else if (event.target.matches('#sports-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount++;
@@ -775,7 +775,7 @@ else if (event.target.matches('#devcomm-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount++;
@@ -887,7 +887,7 @@ else if (event.target.matches('#feature-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount++;
@@ -999,7 +999,7 @@ else if (event.target.matches('#editorial-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount++;
@@ -1111,7 +1111,7 @@ else if (event.target.matches('#opinion-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount++;
@@ -1223,7 +1223,7 @@ else if (event.target.matches('#literary-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount++;
@@ -1335,7 +1335,7 @@ else if (event.target.matches('#entertainment-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount_2++;
@@ -1445,7 +1445,7 @@ else if (event.target.matches('#news-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount_2++;
@@ -1569,7 +1569,7 @@ else if (event.target.matches('#all-news')) {
                         if (obj[loop].img != ""){
                             displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
                         }
-                        displayNews += "<div class=\"content\"><p><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</p></div>";
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
                         displayNews += "</ons-card>";
                         loop++;
                         totalArticleCount++;
@@ -1660,6 +1660,7 @@ else if (event.target.matches('#article')){
             var obj = JSON.parse(str);
             console.log(obj);
             document.getElementById("article-title").innerHTML = "<strong>"+obj[0].title+"</strong>";
+            document.getElementById("article-image").innerHTML = "<img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[0].user_details.img+"'>";
             document.getElementById("article-writer").innerHTML = "<i>"+obj[0].user_details.fname+" "+obj[0].user_details.lname+"</i>";
             document.getElementById("article-datetime").innerHTML = obj[0].date_time;
             document.getElementById("article-body").innerHTML = obj[0].body;
