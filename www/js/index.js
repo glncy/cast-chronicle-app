@@ -1,5 +1,6 @@
 //const apiLink = " https://4f074f65.ngrok.io/onlinepublishing-v2/api/";
-const apiLink = "http://127.0.0.1/onlinepublishing-v2/api/";
+//const apiLink = "http://127.0.0.1/onlinepublishing-v2/api/";
+const apiLink = "https://castchronicle.cf/api/";
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -151,6 +152,11 @@ window.fn.load = function(page) {
         menu.close();
         content.pushPage(page);
     }
+    else if (page == "profile.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
 };
 
 // window.fn.pop = function() {
@@ -195,6 +201,10 @@ function signIn(){
                     readyOnNext = true;
                     var storage = window.localStorage;
                     storage.setItem("access_token", obj[0].access_token);
+                    storage.setItem("id", obj[1].id);
+                    storage.setItem("name", obj[1].fname+" "+obj[1].lname);
+                    storage.setItem("studentId", obj[1].studentId);
+                    storage.setItem("course", obj[1].course);
                 }
                 else {
                     message = obj[0].message;
@@ -229,6 +239,46 @@ function signIn(){
     // menu.setAttribute('swipeable');
     // content.replacePage('home.html');
     // menu.load('menu.html');
+}
+
+function changePassword(){
+    //console.log(storage.getItem("access_token"));
+    var target = document.getElementById('targetLoading');
+    var currentPw = document.getElementById('currentPw').value;
+    var newPw = document.getElementById('newPw').value;
+    var retypeNewPw = document.getElementById('retypeNewPw').value;
+    if ((currentPw=="")&&(newPw=="")&&(retypeNewPw=="")) {
+        ons.notification.alert("Please Fill up the Required Fields.",{
+            title: "Uh oh!"
+        });
+    }
+    else {
+        // var readyOnNext = false;
+        // var message = "";
+        $.ajax({
+            url: apiLink+"user.php?method=change_password",
+            type: "post",
+            data: {
+                user_id: storage.getItem('id'), currentPw: currentPw, newPw: newPw, retypeNewPw: retypeNewPw
+            },
+            beforeSend: function() {
+                target.innerHTML = '<ons-progress-circular indeterminate></ons-progress-circular>';
+            },
+            success: function(r){
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                //console.log(r);
+                if (obj.status == "success_update") {
+                    ons.notification.alert("Password Updated");
+                    target.innerHTML = '<ons-button style="width: 80%;" id="changePwButton" onclick="changePassword();">Change Password</ons-button>';
+                }
+                else {
+                    ons.notification.alert(obj.message);
+                    target.innerHTML = '<ons-button style="width: 80%;" id="changePwButton" onclick="changePassword();">Change Password</ons-button>';
+                }
+            }
+        });
+    }
 }
 
 function logOut(){
@@ -1572,12 +1622,29 @@ else if (event.target.matches('#all-news')) {
     }
 }
 else if (event.target.matches('#about')){
-    // document.addEventListener("backbutton", function(){
-    //     menu.setAttribute('swipeable');
-    // }, false);
-    // document.getElementById('backButton').addEventListener('click',function(){
-    //     menu.setAttribute('swipeable');
-    // });
+    $.ajax({
+        url: apiLink+"about.php",
+        type: "get",
+        success: function(r) {
+            if (r != null){
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                document.getElementById("about-body").innerHTML = obj.body;
+            }
+        }, 
+        complete: function(){
+            setTimeout(function(){
+                document.getElementById("about-load").style.display = "none";
+                document.getElementById("about-content").style.display = "initial";
+            },3000);
+        }
+    });
+}
+else if (event.target.matches('#profile')){
+    document.getElementById('profileName').innerHTML = storage.getItem("name");
+    document.getElementById('studentId').innerHTML = storage.getItem("studentId");
+    document.getElementById('course').innerHTML = storage.getItem("course");
 }
 else if (event.target.matches('#article')){
     console.log(page.data.article_id);

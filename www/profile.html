@@ -1,0 +1,54 @@
+<ons-page id="profile">
+    <ons-toolbar>
+        <div class="left">
+            <div class="left"><ons-back-button id="backButton"></ons-back-button></div>
+        </div>
+        <div class="center">
+            Profile
+        </div>
+    </ons-toolbar>
+    <div style="margin: 20px;">
+        <center>
+            <strong><h3 id="profileName"></h3></strong>
+            <h5 id="studentId"></h5>
+            <h6 id="course"></h6>
+        </center>
+        <hr/>
+        <center>
+            <br/>
+            <h4>Change Password</h4>
+            <br/>
+            <ons-input
+            id="currentPw"
+            placeholder="Current Password"
+            float
+            type="password"
+            modifier="underbar"
+            style="width: 80%;margin-bottom: 5%;"
+            >
+            </ons-input>
+            <ons-input
+            id="newPw"
+            placeholder="New Password"
+            float
+            type="password"
+            modifier="underbar"
+            style="width: 80%;margin-bottom: 5%;"
+            >
+            </ons-input>
+            <ons-input
+            id="retypeNewPw"
+            placeholder="Retype New Password"
+            float
+            type="password"
+            modifier="underbar"
+            style="width: 80%;margin-bottom: 5%;"
+            >
+            </ons-input>
+            <br/>
+            <div id="targetLoading">
+                <ons-button style="width: 80%;" id="changePwButton" onclick="changePassword();">Change Password</ons-button>
+            </div>
+        </center>
+    </div>
+</ons-page>
