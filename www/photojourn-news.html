@@ -1,0 +1,23 @@
+<ons-page id="photojourn-news">
+        <ons-toolbar>
+            <div class="left">
+                <div class="left"><ons-back-button id="backButton"></ons-back-button></div>
+            </div>
+            <div class="center">
+                Photo Journalism
+            </div>
+        </ons-toolbar>
+        <ons-pull-hook id="pull-hook-photojourn" disabled>
+            Pull to refresh
+        </ons-pull-hook>
+        <div id="photojourn-news-error" style="display: none;">
+            <center><div style="margin-top: 30px;">No Available News. Try to Refresh Later.</div></center>
+        </div>
+        <div id="photojourn-news-content">
+        </div>
+        <center>
+        <div id="photojourn-news-load" style="padding-top: 10px; padding-bottom: 10px;">
+            <ons-progress-circular indeterminate></ons-progress-circular>
+        </div>
+        </center>
+    </ons-page>

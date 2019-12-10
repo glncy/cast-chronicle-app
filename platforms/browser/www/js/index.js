@@ -147,6 +147,11 @@ window.fn.load = function(page) {
         menu.close();
         content.pushPage(page);
     }
+    else if (page == "photojourn-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
     else if (page == "search.html") {
         //menu.removeAttribute('swipeable');
         menu.close();
@@ -1488,6 +1493,116 @@ else if (event.target.matches('#news-news')) {
                             setTimeout(function(){
                                 NewsNewsError.style.display = "initial";
                                 NewsNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },2000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
+else if (event.target.matches('#photojourn-news')) {
+    var pullHook = document.getElementById('pull-hook-photojourn');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            PhotoJournNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var PhotoJournNewsContent = document.getElementById('photojourn-news-content');
+    var PhotoJournNewsError = document.getElementById('photojourn-news-error');
+    var PhotoJournNewsLoad = document.getElementById('photojourn-news-load');
+
+    PhotoJournNews(true);
+
+    function PhotoJournNews(reset){
+        if (reset) {
+            totalArticleCount_2 = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "photojourn"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount_2++;
+                    }
+                    endArticleTimestamp_2 = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "news"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount_2) {
+                                setTimeout(function(){
+                                    PhotoJournNewsError.style.display = "none";
+                                    PhotoJournNewsContent.innerHTML = displayNews;
+                                    PhotoJournNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('entertainment-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    PhotoJournNewsError.style.display = "none";
+                                    PhotoJournNewsContent.innerHTML = displayNews;
+                                    PhotoJournNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },2000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                PhotoJournNewsError.style.display = "initial";
+                                PhotoJournNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
                             },2000);
                         }
