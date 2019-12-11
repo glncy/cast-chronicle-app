@@ -147,6 +147,11 @@ window.fn.load = function(page) {
         menu.close();
         content.pushPage(page);
     }
+    else if (page == "photojourn-news.html") {
+        //menu.removeAttribute('swipeable');
+        menu.close();
+        content.pushPage(page);
+    }
     else if (page == "search.html") {
         //menu.removeAttribute('swipeable');
         menu.close();
@@ -214,18 +219,18 @@ function signIn(){
                 if (readyOnNext) {
                     setTimeout(function(){
                         target.innerHTML = '<ons-button style="width: 80%;" onclick="signIn()" id="signIdButton">Sign in</ons-button>';
-                    },2000);
+                    },1000);
                     setTimeout(function(){
                         var menu = document.getElementById('menu');
                         //menu.setAttribute('swipeable');
                         content.replacePage('home.html');
                         menu.load('menu.html');
-                    },2000);
+                    },1000);
                 }
                 else {
                     setTimeout(function(){
                         target.innerHTML = '<ons-button style="width: 80%;" onclick="signIn()" id="signIdButton">Sign in</ons-button>';
-                    },2000);
+                    },1000);
                     ons.notification.alert(message,{
                         title: "Uh oh!"
                     });
@@ -327,7 +332,7 @@ function logOut(){
                             storage.removeItem("access_token");
                             storage.removeItem("dark_mode");
                             cssStyle.setAttribute("href","onsenui/css/dark-onsen-css-components.min.css");
-                        },2000);
+                        },1000);
                     }
                     else {
                         setTimeout(function(){
@@ -335,7 +340,7 @@ function logOut(){
                             ons.notification.alert("Please try again.",{
                                 title: "Failed to Logout"
                             });
-                        },2000);
+                        },1000);
                     }
                 }
             });
@@ -401,7 +406,7 @@ function load_more(target_id){
             else {
                 setTimeout(function(){
                     document.getElementById(target_id+"-load").innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
-                },2000);
+                },1000);
             }
         },
         complete: function() {
@@ -419,12 +424,12 @@ function load_more(target_id){
                     if (ServerArticlesCount > totalArticleCount) {
                         setTimeout(function(){
                             document.getElementById(target_id+"-load").innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('"+target_id+"');\">Load More</ons-button>";
-                        },2000);   
+                        },1000);   
                     }
                     else {
                         setTimeout(function(){
                             document.getElementById(target_id+"-load").innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
-                        },2000);
+                        },1000);
                     }
                 }
             });
@@ -488,7 +493,7 @@ function searchArticle(val){
                         // }
                         document.getElementById('searchContent').innerHTML = displayNews;
                         // pullHook.removeAttribute('disabled');
-                    // },2000);
+                    // },1000);
                 }
                 else {
                     document.getElementById('searchContent').innerHTML = '<center><div style="margin-top: 8%;">No Result</div></center>';
@@ -498,7 +503,7 @@ function searchArticle(val){
                         // }
                         // latestNewsError.style.display = "initial";
                         // pullHook.removeAttribute('disabled');
-                    // },2000);
+                    // },1000);
                 }
             }
         });
@@ -514,14 +519,6 @@ document.addEventListener('init', function(event) {
 var page = event.target;
 //console.log(event.target.id);
 if (event.target.matches('#latest-news')) {
-
-    sw = document.getElementById('dark_mode');
-    if ((storage.getItem("dark_mode")=="on")||(storage.getItem("dark_mode")==null)) {
-        sw.setAttribute("checked");
-    }
-    else {
-        sw.removeAttribute("checked");
-    }
 
 
     latestNewsError = document.getElementById("latest-news-error");
@@ -590,7 +587,7 @@ if (event.target.matches('#latest-news')) {
                         }
                         latestNewsContent.innerHTML = displayNews;
                         pullHook.removeAttribute('disabled');
-                    },2000);
+                    },1000);
                 }
                 else {
                     setTimeout(function(){
@@ -599,7 +596,7 @@ if (event.target.matches('#latest-news')) {
                         }
                         latestNewsError.style.display = "initial";
                         pullHook.removeAttribute('disabled');
-                    },2000);
+                    },1000);
                 }
             }
         });
@@ -693,7 +690,7 @@ else if (event.target.matches('#sports-news')) {
                                     SportsNewsContent.innerHTML = displayNews;
                                     SportsNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -701,7 +698,7 @@ else if (event.target.matches('#sports-news')) {
                                     SportsNewsContent.innerHTML = displayNews;
                                     SportsNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -709,7 +706,7 @@ else if (event.target.matches('#sports-news')) {
                                 SportsNewsError.style.display = "initial";
                                 SportsNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
                         }
                     }
                 });
@@ -805,7 +802,7 @@ else if (event.target.matches('#devcomm-news')) {
                                     DevcommNewsContent.innerHTML = displayNews;
                                     DevcommNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -813,7 +810,7 @@ else if (event.target.matches('#devcomm-news')) {
                                     DevcommNewsContent.innerHTML = displayNews;
                                     DevcommNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -821,7 +818,7 @@ else if (event.target.matches('#devcomm-news')) {
                                 DevcommNewsError.style.display = "initial";
                                 DevcommNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
                         }
                     }
                 });
@@ -917,7 +914,7 @@ else if (event.target.matches('#feature-news')) {
                                     FeatureNewsContent.innerHTML = displayNews;
                                     FeatureNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -925,7 +922,7 @@ else if (event.target.matches('#feature-news')) {
                                     FeatureNewsContent.innerHTML = displayNews;
                                     FeatureNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -933,7 +930,7 @@ else if (event.target.matches('#feature-news')) {
                                 FeatureNewsError.style.display = "initial";
                                 FeatureNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
                         }
                     }
                 });
@@ -965,7 +962,7 @@ else if (event.target.matches('#editorial-news')) {
 
     var EditorialNewsContent = document.getElementById('editorial-news-content');
     var EditorialNewsError = document.getElementById('editorial-news-error');
-    var EditorialNewsLoad = document.getElementById('editoral-news-load');
+    var EditorialNewsLoad = document.getElementById('editorial-news-load');
 
     EditorialNews(true);
 
@@ -984,6 +981,7 @@ else if (event.target.matches('#editorial-news')) {
                 start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "editorial"
             },
             success: function(r) {
+                console.log(r);
                 var str = JSON.stringify(r);
                 var obj = JSON.parse(str);
                 console.log(obj);
@@ -1029,7 +1027,7 @@ else if (event.target.matches('#editorial-news')) {
                                     EditorialNewsContent.innerHTML = displayNews;
                                     EditorialNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -1037,7 +1035,7 @@ else if (event.target.matches('#editorial-news')) {
                                     EditorialNewsContent.innerHTML = displayNews;
                                     EditorialNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -1045,7 +1043,7 @@ else if (event.target.matches('#editorial-news')) {
                                 EditorialNewsError.style.display = "initial";
                                 EditorialNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
                         }
                     }
                 });
@@ -1141,7 +1139,7 @@ else if (event.target.matches('#opinion-news')) {
                                     OpinionNewsContent.innerHTML = displayNews;
                                     OpinionNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -1149,7 +1147,7 @@ else if (event.target.matches('#opinion-news')) {
                                     OpinionNewsContent.innerHTML = displayNews;
                                     OpinionNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -1157,7 +1155,7 @@ else if (event.target.matches('#opinion-news')) {
                                 OpinionNewsError.style.display = "initial";
                                 OpinionNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
                         }
                     }
                 });
@@ -1253,7 +1251,7 @@ else if (event.target.matches('#literary-news')) {
                                     LiteraryNewsContent.innerHTML = displayNews;
                                     LiteraryNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('sports-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -1261,7 +1259,7 @@ else if (event.target.matches('#literary-news')) {
                                     LiteraryNewsContent.innerHTML = displayNews;
                                     LiteraryNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -1269,7 +1267,7 @@ else if (event.target.matches('#literary-news')) {
                                 LiteraryNewsError.style.display = "initial";
                                 LiteraryNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
                         }
                     }
                 });
@@ -1363,7 +1361,7 @@ else if (event.target.matches('#entertainment-news')) {
                                     EntertainmentNewsContent.innerHTML = displayNews;
                                     EntertainmentNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('entertainment-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -1371,7 +1369,7 @@ else if (event.target.matches('#entertainment-news')) {
                                     EntertainmentNewsContent.innerHTML = displayNews;
                                     EntertainmentNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -1379,7 +1377,7 @@ else if (event.target.matches('#entertainment-news')) {
                                 EntertainmentNewsError.style.display = "initial";
                                 EntertainmentNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
                         }
                     }
                 });
@@ -1473,7 +1471,7 @@ else if (event.target.matches('#news-news')) {
                                     NewsNewsContent.innerHTML = displayNews;
                                     NewsNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('entertainment-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -1481,7 +1479,7 @@ else if (event.target.matches('#news-news')) {
                                     NewsNewsContent.innerHTML = displayNews;
                                     NewsNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -1489,7 +1487,117 @@ else if (event.target.matches('#news-news')) {
                                 NewsNewsError.style.display = "initial";
                                 NewsNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+}
+else if (event.target.matches('#photojourn-news')) {
+    var pullHook = document.getElementById('pull-hook-photojourn');
+    pullHook.addEventListener('changestate', function(event) {
+        var message = '';
+    
+        switch (event.state) {
+        case 'initial':
+            message = 'Pull to refresh';
+            break;
+        case 'action':
+            PhotoJournNews(true);
+            message = '<ons-progress-circular indeterminate style="margin-top: 10px;"></ons-progress-circular>';
+            break;
+        }
+    
+        pullHook.innerHTML = message;
+    });
+    
+    pullHook.onAction = function(done) {
+        setTimeout(done, 1000);
+    };
+
+    var PhotoJournNewsContent = document.getElementById('photojourn-news-content');
+    var PhotoJournNewsError = document.getElementById('photojourn-news-error');
+    var PhotoJournNewsLoad = document.getElementById('photojourn-news-load');
+
+    PhotoJournNews(true);
+
+    function PhotoJournNews(reset){
+        if (reset) {
+            totalArticleCount_2 = 0;
+        }
+        var ServerArticlesCount = 0;
+        var currentTimestamp = Math.floor(Date.now() / 1000);
+        var showNews = false;
+        var displayNews = "";
+        $.ajax({
+            url: apiLink+"article.php",
+            type: "get",
+            data: {
+                start: currentTimestamp, limit: "20", count: "true", params: "id,user_id,title,up_timestamp,img", category: "photojourn"
+            },
+            success: function(r) {
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                var loopTotal = obj.length-1;
+    
+                if (typeof obj.message === 'undefined'){
+                    showNews = true;
+
+                    var loop = 0
+                    while (loop < loopTotal){
+                        displayNews += "<ons-card onclick=\"article("+obj[loop].id+");\">";
+                        displayNews += "<div class=\"title\">"+obj[loop].title+"</div>";
+                        if (obj[loop].img != ""){
+                            displayNews += "<img src=\""+obj[loop].img+"\" width=\"100%\">";
+                        }
+                        displayNews += "<div class=\"content\"><p><div style='display: inline-block; padding-right: 10px;'><img style='border-radius: 100%; width: 40px; height: 40px;' src='"+obj[loop].user_details.img+"'></div><div style='display: inline-block;'><strong>"+obj[loop].user_details.fname+" "+obj[loop].user_details.lname+"</strong><br/>"+obj[loop].date_time+"</div></p></div>";
+                        displayNews += "</ons-card>";
+                        loop++;
+                        totalArticleCount_2++;
+                    }
+                    endArticleTimestamp_2 = obj[loop-1].up_timestamp;
+                }
+            },
+            complete: function() {
+                $.ajax({
+                    url: apiLink+"article.php",
+                    type: "get",
+                    data: {
+                        count: "only_count", category: "news"
+                    },
+                    success: function(r) {
+                        var str = JSON.stringify(r);
+                        var obj = JSON.parse(str);
+                        ServerArticlesCount = parseInt(obj.article_count);
+                    }, 
+                    complete: function(){
+                        if (showNews){
+                            if (ServerArticlesCount > totalArticleCount_2) {
+                                setTimeout(function(){
+                                    PhotoJournNewsError.style.display = "none";
+                                    PhotoJournNewsContent.innerHTML = displayNews;
+                                    PhotoJournNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('entertainment-news');\">Load More</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },1000);   
+                            }
+                            else {
+                                setTimeout(function(){
+                                    PhotoJournNewsError.style.display = "none";
+                                    PhotoJournNewsContent.innerHTML = displayNews;
+                                    PhotoJournNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
+                                    pullHook.removeAttribute('disabled');
+                                },1000);
+                            }
+                        }
+                        else {
+                            setTimeout(function(){
+                                PhotoJournNewsError.style.display = "initial";
+                                PhotoJournNewsLoad.style.display = "none";
+                                pullHook.removeAttribute('disabled');
+                            },1000);
                         }
                     }
                 });
@@ -1498,13 +1606,6 @@ else if (event.target.matches('#news-news')) {
     }
 }
 else if (event.target.matches('#all-news')) {
-    sw = document.getElementById('dark_mode');
-    if ((storage.getItem("dark_mode")=="on")||(storage.getItem("dark_mode")==null)) {
-        sw.setAttribute("checked");
-    }
-    else {
-        sw.removeAttribute("checked");
-    }
     var pullHook = document.getElementById('pull-hook');
     pullHook.addEventListener('changestate', function(event) {
         var message = '';
@@ -1597,7 +1698,7 @@ else if (event.target.matches('#all-news')) {
                                     AllNewsContent.innerHTML = displayNews;
                                     AllNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" onclick=\"load_more('all-news');\">Load More</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);   
+                                },1000);   
                             }
                             else {
                                 setTimeout(function(){
@@ -1605,7 +1706,7 @@ else if (event.target.matches('#all-news')) {
                                     AllNewsContent.innerHTML = displayNews;
                                     AllNewsLoad.innerHTML = "<ons-button modifier=\"large--quiet\" disabled>End of All Articles</ons-button>";
                                     pullHook.removeAttribute('disabled');
-                                },2000);
+                                },1000);
                             }
                         }
                         else {
@@ -1613,7 +1714,7 @@ else if (event.target.matches('#all-news')) {
                                 AllNewsError.style.display = "initial";
                                 AllNewsLoad.style.display = "none";
                                 pullHook.removeAttribute('disabled');
-                            },2000);
+                            },1000);
                         }
                     }
                 });
@@ -1637,6 +1738,35 @@ else if (event.target.matches('#about')){
             setTimeout(function(){
                 document.getElementById("about-load").style.display = "none";
                 document.getElementById("about-content").style.display = "initial";
+            },3000);
+        }
+    });
+}
+else if (event.target.matches('#landing')){
+
+    sw = document.getElementById('dark_mode');
+    if ((storage.getItem("dark_mode")=="on")||(storage.getItem("dark_mode")==null)) {
+        sw.setAttribute("checked");
+    }
+    else {
+        sw.removeAttribute("checked");
+    }
+
+    $.ajax({
+        url: apiLink+"home.php",
+        type: "get",
+        success: function(r) {
+            if (r != null){
+                var str = JSON.stringify(r);
+                var obj = JSON.parse(str);
+                console.log(obj);
+                document.getElementById("landing-body").innerHTML = obj.body;
+            }
+        }, 
+        complete: function(){
+            setTimeout(function(){
+                document.getElementById("landing-load").style.display = "none";
+                document.getElementById("landing-content").style.display = "initial";
             },3000);
         }
     });

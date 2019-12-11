@@ -4,31 +4,44 @@
     </center>
     <ons-list>
     <ons-list-item onclick="fn.load('home.html')" tappable>
+        Home
+    </ons-list-item>
+    <ons-list-item onclick="fn.load('all-news.html')" tappable>
         Latest News
     </ons-list-item>
     <!-- <ons-list-item onclick="fn.load('all-news.html')" tappable>
         All News
     </ons-list-item> -->
-    <ons-list-item onclick="fn.load('news-news.html')" tappable>
-        News
-    </ons-list-item>
-    <ons-list-item onclick="fn.load('devcomm-news.html')" tappable>
-        Devcomm
-    </ons-list-item>
-    <ons-list-item onclick="fn.load('feature-news.html')" tappable>
-        Feature
-    </ons-list-item>
-    <ons-list-item onclick="fn.load('sports-news.html')" tappable>
-        Sports
-    </ons-list-item>
-    <ons-list-item onclick="fn.load('editorial-news.html')" tappable>
-        Editorial
-    </ons-list-item>
-    <ons-list-item onclick="fn.load('opinion-news.html')" tappable>
-        Opinion
-    </ons-list-item>
-    <ons-list-item onclick="fn.load('literary-news.html')" tappable>
-        Literary
+    <ons-list-item expandable>
+        Categories
+        <div class="expandable-content">
+            <ons-list>
+                <ons-list-item onclick="fn.load('news-news.html')" tappable>
+                    News
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('devcomm-news.html')" tappable>
+                    Devcomm
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('feature-news.html')" tappable>
+                    Feature
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('sports-news.html')" tappable>
+                    Sports
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('editorial-news.html')" tappable>
+                    Editorial
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('opinion-news.html')" tappable>
+                    Opinion
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('literary-news.html')" tappable>
+                    Literary
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('photojourn-news.html')" tappable>
+                    Photo Journalism
+                </ons-list-item>
+            </ons-list>
+        </div>
     </ons-list-item>
     <ons-list-item onclick="fn.load('search.html')" tappable>
         Search
